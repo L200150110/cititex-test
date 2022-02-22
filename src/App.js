@@ -76,7 +76,7 @@ function App() {
                     <td>
                       {JSON.parse(item["product_stock"]).map((stock, k) => {
                         if (loc["id"] in stock) {
-                          return stock[loc["id"]];
+                          return stock[loc["id"]].toLocaleString();
                         }
                       })}
                     </td>
