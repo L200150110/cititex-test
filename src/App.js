@@ -57,40 +57,44 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Test Cititex</h1>
-        <table style={styles.table}>
-          <tr style={styles.th}>
-            {data["location"].map((item, i) => {
-              return <th>{item["name"]}</th>;
+        {total.length === data["proformaItem"].length ? (
+          <table style={styles.table}>
+            <tr style={styles.th}>
+              {data["location"].map((item, i) => {
+                return <th>{item["name"]}</th>;
+              })}
+              <th>Category</th>
+              <th>Product</th>
+              <th>Total Stock</th>
+              <th>Percent %</th>
+              <th>Total Order</th>
+            </tr>
+            {data["proformaItem"].map((item, i) => {
+              return (
+                <tr style={styles.td}>
+                  {data["location"].map((loc, j) => {
+                    return (
+                      <td>
+                        {JSON.parse(item["product_stock"]).map((stock, k) => {
+                          if (loc["id"] in stock) {
+                            return stock[loc["id"]].toLocaleString();
+                          }
+                        })}
+                      </td>
+                    );
+                  })}
+                  <td>{item["categoryDescription"]}</td>
+                  <td>{item["productDescription"]}</td>
+                  <td>{total[i].toLocaleString()}</td>
+                  <td>{((qty[i] / total[i]) * 100).toFixed(2)} %</td>
+                  <td>{qty[i]}</td>
+                </tr>
+              );
             })}
-            <th>Category</th>
-            <th>Product</th>
-            <th>Total Stock</th>
-            <th>Percent %</th>
-            <th>Total Order</th>
-          </tr>
-          {data["proformaItem"].map((item, i) => {
-            return (
-              <tr style={styles.td}>
-                {data["location"].map((loc, j) => {
-                  return (
-                    <td>
-                      {JSON.parse(item["product_stock"]).map((stock, k) => {
-                        if (loc["id"] in stock) {
-                          return stock[loc["id"]].toLocaleString();
-                        }
-                      })}
-                    </td>
-                  );
-                })}
-                <td>{item["categoryDescription"]}</td>
-                <td>{item["productDescription"]}</td>
-                <td>{total[i].toLocaleString()}</td>
-                <td>{((qty[i] / total[i]) * 100).toFixed(2)} %</td>
-                <td>{qty[i]}</td>
-              </tr>
-            );
-          })}
-        </table>
+          </table>
+        ) : (
+          <p>data loaded</p>
+        )}
       </header>
     </div>
   );
