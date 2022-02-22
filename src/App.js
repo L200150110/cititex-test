@@ -93,7 +93,7 @@ function App() {
             })}
           </table>
         ) : (
-          <p>data loaded</p>
+          <p>Data Loaded</p>
         )}
       </header>
     </div>
