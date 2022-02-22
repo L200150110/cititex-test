@@ -35,7 +35,7 @@ function App() {
     return hasil;
   };
 
-  const persentase = (data) => {
+  const kuantitas = (data) => {
     var hasil = [];
     data.forEach((item, i) => {
       let dataItem = JSON.parse(item["items"]);
@@ -50,7 +50,7 @@ function App() {
 
   useEffect(() => {
     setTotal(penjumlahan(data["proformaItem"]));
-    setQty(persentase(data["proformaItem"]));
+    setQty(kuantitas(data["proformaItem"]));
   }, []);
 
   return (
