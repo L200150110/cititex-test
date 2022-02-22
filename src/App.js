@@ -59,9 +59,9 @@ function App() {
         <h1>Test Cititex</h1>
         <table style={styles.table}>
           <tr style={styles.th}>
-            <th>Jakarta-Kedoya</th>
-            <th>Tangerang-Dadap</th>
-            <th>Bekasi-Galaxy</th>
+            {data["location"].map((item, i) => {
+              return <th>{item["name"]}</th>;
+            })}
             <th>Category</th>
             <th>Product</th>
             <th>Total Stock</th>
@@ -71,27 +71,17 @@ function App() {
           {data["proformaItem"].map((item, i) => {
             return (
               <tr style={styles.td}>
-                <td>
-                  {JSON.parse(item["product_stock"]).map((pro, i) => {
-                    if ("1" in pro) {
-                      return pro["1"].toLocaleString();
-                    }
-                  })}
-                </td>
-                <td>
-                  {JSON.parse(item["product_stock"]).map((pro, i) => {
-                    if ("3" in pro) {
-                      return pro["3"].toLocaleString();
-                    }
-                  })}
-                </td>
-                <td>
-                  {JSON.parse(item["product_stock"]).map((pro, i) => {
-                    if ("5" in pro) {
-                      return pro["5"].toLocaleString();
-                    }
-                  })}
-                </td>
+                {data["location"].map((loc, j) => {
+                  return (
+                    <td>
+                      {JSON.parse(item["product_stock"]).map((stock, k) => {
+                        if (loc["id"] in stock) {
+                          return stock[loc["id"]];
+                        }
+                      })}
+                    </td>
+                  );
+                })}
                 <td>{item["categoryDescription"]}</td>
                 <td>{item["productDescription"]}</td>
                 <td>{total[i].toLocaleString()}</td>
