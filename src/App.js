@@ -3,21 +3,6 @@ import "./App.css";
 import data from "./data.json";
 import React, { useState, useEffect } from "react";
 
-const styles = {
-  table: {
-    width: "100%",
-    border: "1px solid",
-  },
-  th: {
-    backgroundColor: "grey",
-    color: "white",
-  },
-  td: {
-    backgroundColor: "white",
-    color: "black",
-  },
-};
-
 function App() {
   const [total, setTotal] = useState([]);
   const [qty, setQty] = useState([]);
@@ -58,39 +43,43 @@ function App() {
       <header className="App-header">
         <h1>Test Cititex</h1>
         {total.length === data["proformaItem"].length ? (
-          <table style={styles.table}>
-            <tr style={styles.th}>
-              {data["location"].map((item, i) => {
-                return <th>{item["name"]}</th>;
+          <table class="styled-table">
+            <thead>
+              <tr>
+                {data["location"].map((item, i) => {
+                  return <th>{item["name"]}</th>;
+                })}
+                <th>Category</th>
+                <th>Product</th>
+                <th>Total Stock</th>
+                <th>Percent %</th>
+                <th>Total Order</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data["proformaItem"].map((item, i) => {
+                return (
+                  <tr>
+                    {data["location"].map((loc, j) => {
+                      return (
+                        <td>
+                          {JSON.parse(item["product_stock"]).map((stock, k) => {
+                            if (loc["id"] in stock) {
+                              return stock[loc["id"]].toLocaleString();
+                            }
+                          })}
+                        </td>
+                      );
+                    })}
+                    <td>{item["categoryDescription"]}</td>
+                    <td>{item["productDescription"]}</td>
+                    <td>{total[i].toLocaleString()}</td>
+                    <td>{((qty[i] / total[i]) * 100).toFixed(2)} %</td>
+                    <td>{qty[i]}</td>
+                  </tr>
+                );
               })}
-              <th>Category</th>
-              <th>Product</th>
-              <th>Total Stock</th>
-              <th>Percent %</th>
-              <th>Total Order</th>
-            </tr>
-            {data["proformaItem"].map((item, i) => {
-              return (
-                <tr style={styles.td}>
-                  {data["location"].map((loc, j) => {
-                    return (
-                      <td>
-                        {JSON.parse(item["product_stock"]).map((stock, k) => {
-                          if (loc["id"] in stock) {
-                            return stock[loc["id"]].toLocaleString();
-                          }
-                        })}
-                      </td>
-                    );
-                  })}
-                  <td>{item["categoryDescription"]}</td>
-                  <td>{item["productDescription"]}</td>
-                  <td>{total[i].toLocaleString()}</td>
-                  <td>{((qty[i] / total[i]) * 100).toFixed(2)} %</td>
-                  <td>{qty[i]}</td>
-                </tr>
-              );
-            })}
+            </tbody>
           </table>
         ) : (
           <p>Data Loaded</p>
